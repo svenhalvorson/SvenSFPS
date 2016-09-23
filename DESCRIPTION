@@ -1,0 +1,9 @@
+Package: SvenR
+Type: Package
+Title: Sven's R Jiggering
+Version: 0.1.0
+Author: Sven Halvorson
+Maintainer: Sven Halvorson <svenedmail@gmail.com>
+Description: I've built some functions to help my work at SFPS
+License: Do what you will.
+LazyData: TRUE
