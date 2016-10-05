@@ -5,7 +5,7 @@
 Double Regular Expressions
 }
 \description{
-\code{double.regex} takes in two characters and determiens if either is a subset of the other. This function uses
+\code{double.regex} takes in two characters and determines if either is a subset of the other. This function uses
 grepl so multiple instances will catch.
 }
 \usage{

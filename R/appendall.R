@@ -12,7 +12,6 @@ append.all <- function(type=c("xslx","csv","tab"), folder=NULL, patt="",  head =
 
   #list the files in the directory
   setwd(dir=folder)
-  print(getwd())
   files <- list.files(pattern=patt)
 
   #reject if there aren't any files in that directory with that patter
@@ -39,13 +38,13 @@ append.all <- function(type=c("xslx","csv","tab"), folder=NULL, patt="",  head =
   for(i in 2:length(files)){
     #make a temp file
     if(type == "xlsx"){
-      temp = read.xlsx(file = files[1], as.data.frame = TRUE, header = head, sheetIndex = 1)
+      temp = read.xlsx(file = files[i], as.data.frame = TRUE, header = head, sheetIndex = 1)
     }
     if(type == "csv"){
-      temp = read.csv(file=files[1], header = head)
+      temp = read.csv(file=files[i], header = head)
     }
     if(type == "tab"){
-      temp = read.table(file = files[1], header=head, sep = "/t")
+      temp = read.table(file = files[i], header=head, sep = "/t")
     }
 
     #Now bind it to the running total

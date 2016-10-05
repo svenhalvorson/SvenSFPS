@@ -2,7 +2,6 @@
 #common entries in two data frames by name. This is a common problem for
 #me as sometimes we have data sets without student numbers.
 
-#We will do three stages. Exact, split regular expressions, and fragments
 
 #function takes in two dataframes or matrices
 match.names <- function(df1,df2){
@@ -10,6 +9,9 @@ match.names <- function(df1,df2){
   ##############
   # SAFEGAURDS #
   ##############
+
+  #load in our favorite stuffs
+  svenpacks()
 
   #ensure that the arguments we received are the appropriate types
   typ = c("matrix","data.frame")
@@ -116,13 +118,14 @@ match.names <- function(df1,df2){
   #if they're exact matches, let's mark them as such
   merged$match[which((merged$first.q.x == merged$first.q.y) & (merged$last.q.x == merged$last.q.y))] = "Exact"
 
-
+  #now this set will mess around with the data and then connect back to the unambiguous
+  to.match <- as.data.frame(apply(X = merged,MARGIN=2,FUN=stdchar),stringsAsFactors = FALSE)
 
   #set them aside
   unambiguous = merged[which(!is.na(merged$match)),]
   merged = merged[which(is.na(merged$match)),]
 
-  #now this set will mess around with the data and then connect back to merged
+  #now this set will mess around with the data and then connect back to the unambiguous
   to.match <- as.data.frame(apply(X = merged,MARGIN=2,FUN=stdchar),stringsAsFactors = FALSE)
 
   fnXsplit <- str_split_fixed(to.match$first.q.x,"-",n=3)
