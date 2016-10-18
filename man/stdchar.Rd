@@ -22,7 +22,7 @@ stdchar(x)
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-If the argument is a character or factor vector, stchar returns a modified version. Otherwise, it returns the argument
+If the argument is a character or factor vector, \code{stchar} returns a modified version. Otherwise, it returns the argument.
 }
 \references{
 %% ~put references to the literature/web site here ~
@@ -43,3 +43,5 @@ If the argument is a character or factor vector, stchar returns a modified versi
 names = c(" joe schmo","pereda, LUpe")
 stdchar(names)
 }
+\keyword{ ~SvenR }
+\keyword{ ~character }

@@ -4,12 +4,12 @@ regex.cols <- function(a,b,ignore.case = FALSE){
 
   #verify that they're both factors or characters
   if(!(class(a) %in% c("factor","character") & class(b) %in% c("factor","character"))){
-     return(warning("a and b must be factors or characters"))
+     stop("a and b must be factors or characters")
    }
 
   #verify that both vectors are the same length
   if(!(length(a)==length(b))){
-    return(warning("a and b must be the same length"))
+    stop("a and b must be the same length")
   }
 
   mat = as.data.frame(cbind(a,b))

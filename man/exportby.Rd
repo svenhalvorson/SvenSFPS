@@ -9,7 +9,7 @@ Export by a Factor
 .xlsx files
 }
 \usage{
-export.by(df, by, form = c("sheet", "file"))
+export.by(df, by, form = c("tab", "file"))
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -20,12 +20,12 @@ export.by(df, by, form = c("sheet", "file"))
   The name of one of the columns in df. This is the variable exports are groupd by.
 }
   \item{form}{
-  If "sheet" is selected, export.by will produce a single file with a sheet for each level of 'by' as well as a master list. If "file" is selected, a seperate file for each level of 'by' is created.
+  If "tab" is selected, export.by will produce a single file with a tab each level of 'by' as well as a master list. If "file" is selected, a seperate file for each level of 'by' is created.
 }
 
 }
 \details{
-\code{export.by} uses your current directory so set it before running. Files are named according to the data frame you pass it. In sheets mode, the name of the file will be appended with "_sheets.xlsx". In file mode, each file will be appended with the level and a master list will be produced too.
+\code{export.by} uses your current directory so set it before running. Files are named according to the data frame you pass it. In sheets mode, the name of the file will be appended with "_tab.xlsx". In file mode, each file will be appended with the level and a master list will be produced too.
 }
 
 \author{
@@ -33,9 +33,10 @@ Sven Halvorson (svenedmail@gmail.com)
 }
 
 \examples{
-export.by(df = mtcars, by = "cyl", form = "sheet")
+export.by(df = mtcars, by = "cyl", form = "tab")
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
 \keyword{ ~export }% use one of  RShowDoc("KEYWORDS")
 \keyword{ ~xlsx }% __ONLY ONE__ keyword per line
+\keyword{ ~SvenR }

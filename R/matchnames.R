@@ -17,7 +17,7 @@ match.names <- function(df1,df2){
   typ = c("matrix","data.frame")
   if(!(class(df1) %in% typ & class(df2) %in% typ)){
 
-    return(warning("df1 and df2 must be data frames or matrices"))
+    stop("df1 and df2 must be data frames or matrices")
   }
 
   #ensure that they both have the DOB, gender, first.name, and last.name
@@ -27,7 +27,7 @@ match.names <- function(df1,df2){
   #let's check that we can directly identify the the gender, dob, first, and last
   if(sum(grepl(x = colnames(df1),pattern="gender",ignore.case = TRUE)) !=1
      | sum(grepl(x = colnames(df2),pattern="gender",ignore.case = TRUE)) !=1){
-    return(warning("Ambiguous or unidentified gender variable"))
+    stop("Ambiguous or unidentified gender variable")
   }
 
   if((sum(grepl(x = colnames(df1),pattern="dob",ignore.case = TRUE)) !=1
@@ -35,17 +35,17 @@ match.names <- function(df1,df2){
      | (sum(grepl(x = colnames(df2),pattern="dob",ignore.case = TRUE)) !=1
      & sum(grepl(x = colnames(df2),pattern="birth",ignore.case = TRUE)) !=1)
      ){
-    return(warning("Ambiguous or unidentified date of birth variable"))
+    stop("Ambiguous or unidentified date of birth variable")
   }
 
   if(sum(grepl(x = colnames(df1),pattern="first",ignore.case = TRUE)) !=1
      | sum(grepl(x = colnames(df2),pattern="first",ignore.case = TRUE)) !=1){
-    return(warning("Ambiguous or unidentified first name variable"))
+    stop("Ambiguous or unidentified first name variable")
   }
 
   if(sum(grepl(x = colnames(df1),pattern="last",ignore.case = TRUE)) !=1
      | sum(grepl(x = colnames(df2),pattern="last",ignore.case = TRUE)) !=1){
-    return(warning("Ambiguous or unidentified first name variable"))
+    stop("Ambiguous or unidentified first name variable")
   }
 
   ##############

@@ -32,3 +32,4 @@ Returns a logical of length 1
 }
 \keyword{ ~regex }% use one of  RShowDoc("KEYWORDS")
 \keyword{ ~grepl }% __ONLY ONE__ keyword per line
+\keyword{ ~SvenR }

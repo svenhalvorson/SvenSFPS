@@ -1,31 +1,31 @@
 #let's write a function to take in a data frame and export it by a variable
 
 
-export.by <- function(df, by, form = c("sheet", "file")) {
+export.by <- function(df, by, form = c("tab", "file")) {
   #verify that we have a data frame
   if (!(class(df) %in% c("data.frame", "matrix"))) {
-    return(warning("df must be a data frame or matrix"))
+    stop("df must be a data frame or matrix")
   }
 
   #verify that 'by' is one of the columns
   if (!(by %in% colnames(df))) {
-    return(warning(paste(by, "not found in colnames(df)")))
+    stop(paste(by, "not found in colnames(df)"))
   }
   #verify that form is specified correctly
-  if(!(form %in% c("sheet", "file"))){
-    return(warning("form argument must be \"sheet\" or \"file\""))
+  if(!(form %in% c("tab", "file"))){
+    stop("form argument must be \"tab\" or \"file\"")
   }
 
 
   #make the by variable a factor
-  lev <- levels(as.factor(df[, by]))
+  lev <- levels(as.factor(as.character(df[, by])))
 
   #label the object
   obj <- deparse(substitute(df))
 
-  #if we're in sheet mode, we want a master list
-  if (form == "sheet") {
-    path = paste(getwd(), "/", obj, "_sheets.xlsx", sep = "")
+  #if we're in tab mode, we want a master list
+  if (form == "tab") {
+    path = paste(getwd(), "/", obj, "_tabs.xlsx", sep = "")
     write.xlsx(x = df,
                file = path,
                sheetName = "Master",
@@ -52,8 +52,8 @@ export.by <- function(df, by, form = c("sheet", "file")) {
       write.xlsx(x = temp, file = path, row.names = FALSE)
     }
 
-    if (form == "sheet") {
-      path = paste(getwd(), "/", obj, "_sheets.xlsx", sep = "")
+    if (form == "tab") {
+      path = paste(getwd(), "/", obj, "_tabs.xlsx", sep = "")
       write.xlsx(x = temp,
                  file = path,
                  sheetName = l,

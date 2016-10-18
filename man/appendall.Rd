@@ -54,3 +54,4 @@ append.all(type = "csv", dir = "C:/Users/shalvorson/Documents", pat = "new.csv")
 % R documentation directory.
 \keyword{ ~append }% use one of  RShowDoc("KEYWORDS")
 \keyword{ ~files }% __ONLY ONE__ keyword per line
+\keyword{ ~SvenR }

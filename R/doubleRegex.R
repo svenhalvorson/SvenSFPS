@@ -5,7 +5,7 @@ double.regex <- function(a, b, ignore.case = FALSE){
   #can only take in length 1
   if(length(a) != 1 | length(b) != 1){
 
-    return(warning("Arguments must have length 1"))
+    stop("Arguments must have length 1")
   }
 
   #protect against NA or ""

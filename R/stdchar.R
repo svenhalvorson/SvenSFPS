@@ -8,7 +8,7 @@ stdchar <- function(x){
 
   #now we clean
   else{
-    newvec = x
+    newvec = as.character(x)
     #trim white space
     newvec <- trimws(newvec,which = "both")
     #nenewvect we'll replace any internal blanks with dashes

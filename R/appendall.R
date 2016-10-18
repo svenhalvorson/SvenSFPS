@@ -16,8 +16,8 @@ append.all <- function(type=c("xslx","csv","tab"), folder=NULL, patt="",  head =
 
   #reject if there aren't any files in that directory with that patter
   if(length(files) == 0){
-    print("No files fit that pattern in that directory")
-    return(NA)
+    stop("No files fit that pattern in that directory")
+
   }
 
   #Now we will take in the first file
