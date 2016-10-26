@@ -5,17 +5,24 @@
 
 dupes.tag <- function(df,...){
 
+  svenpacks()
   ###########
   #safegaurds
   ###########
 
   #df must be a data frame
   if(class(df) != "data.frame"){
-    stop("df must be a data frame or matrix")
+    stop("df must be a data frame")
+  }
+
+
+  #probably don't want ... to be empty
+  cols = list(...)
+  if(length(cols)==0){
+    stop("One or more arguments required in ...")
   }
 
   #now verify that all the arguments of ... are in colnames(df)
-  cols = list(...)
   indf = cols %in% colnames(df)
   if(min(indf) == 0){
     #the stop message works with no seperator so let's make one
@@ -39,9 +46,8 @@ dupes.tag <- function(df,...){
   agg = aggregate(one, df[,cols], FUN = sum)
 
   #rename
-  colnames(agg)[ncol(agg)] = "dupes"
+  colnames(agg) = c(as.character(cols),"dupes")
   agg$dupes = agg$dupes - 1
-
 
   #now join back to df
   df = left_join(df,agg)
@@ -57,8 +63,8 @@ dupes.tag <- function(df,...){
 #testing
 ########
 
-test.set = data.frame(sample(x = c("A","B","C"),size = 20, replace = TRUE))
-colnames(test.set) = "v1"
-test.set$v2 = sample(x = 1:2,size = 20, replace = TRUE)
-test.set$v3 = sample(x = c("foo", "bar"),size = 20, replace = TRUE)
+#test.set = data.frame(sample(x = c("A","B","C"),size = 20, replace = TRUE))
+#colnames(test.set) = "v1"
+#test.set$v2 = sample(x = 1:2,size = 20, replace = TRUE)
+#test.set$v3 = sample(x = c("foo", "bar"),size = 20, replace = TRUE)
 
