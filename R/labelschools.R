@@ -2,23 +2,25 @@
 #to the schools at SFPS
 #going to call the output 'vec'
 
-label.schools <- function(df, school = "school", from = "num", to = "abbr"){
+label.schools <- function(df, school = "school", to = "abbr", from = NA){
 
-  if(type(df) != "data.frame"){
+  if(!is.data.frame(df)){
     stop("df must be a data frame")
   }
 
   #check to see that parameters specified correctly
-  if(!(from %in% c("num","abbr","name"))){
-    stop("from argument must be in num, abbr, name")
+  if(!(from %in% c("num","abbr","name", NA))){
+    stop("from argument must be in num, abbr, name, or left blank")
   }
 
   if(!(to %in% c("num","abbr","name"))){
     stop("to argument must be in num, abbr, name")
   }
 
-  if((from == "num" & to == "num") | (from == "abbr" & to == "abrr")){
-    stop("from and to arguments should be different or both 'name'")
+  if(!is.na(from)){
+    if((from == "num" & to == "num") | (from == "abbr" & to == "abrr")){
+      stop("from and to arguments should be different or both 'name'")
+    }
   }
 
   #check if there exactly one column matching the school argument
@@ -28,6 +30,47 @@ label.schools <- function(df, school = "school", from = "num", to = "abbr"){
 
   if(sum(colnames(df) == school) > 1){
     stop("multiple columns matching school argument")
+  }
+
+  #okay we're gonna try a different approach
+  #let's making a copy of the school variable and use it as our working vector
+  vec = as.character(df[,school])
+
+  #now try to detect the type of the from argument
+  if(is.na(from)){
+    #maybe it's clearly numeric, I guess we could accept some null values
+    #but maybe if <20% are NA when coerced we would say it's probably numeric
+    numtest = suppressWarnings(as.numeric(vec))
+    likelynum = sum(is.na(numtest))/length(numtest) < .2
+    if(likelynum){
+      from = "num"
+    }
+  }
+
+  #detect 4 character code
+  if(is.na(from)){
+    #let's try to work off the mean number of characters being between 3 and 4
+    numchar = nchar(vec)
+
+    if((mean(numchar)>3) & (mean(numchar)<=4)){
+      from = "abbr"
+    }
+
+
+  }
+
+  #detect long name form
+  if(is.na(from)){
+    #probably the name average name should be longer than 4 characters
+    numchar = nchar(vec)
+    if(mean(numchar)>4){
+      from = "name"
+    }
+  }
+
+  #if it's still NA let's stop
+  if(is.na(from)){
+    stop("Unable to detect unspecified 'from' argument")
   }
 
 
@@ -41,14 +84,24 @@ label.schools <- function(df, school = "school", from = "num", to = "abbr"){
   # NUM #
   #######
 
+
+
   #assuming we have from == "num"
   if(from == "num"){
 
+
+
     #make sure argument is numeric and the columns match for merging
-    df$num = as.numeric(df[,school])
+    df$num = df[,school]
+    if(is.character(df$num)){
+      df$num = as.numeric(df$num)
+    }
+    if(is.factor(df$num)){
+      df$num = as.numeric(as.character(df$num))
+    }
 
     #cut out that old school code
-    df[which(df[,"num"] == 174),school] = 11
+    df$num[which(df$num == 174)] = 11
 
     if(to == "abbr"){
       ref = select(ref,num,abbr)
@@ -57,11 +110,11 @@ label.schools <- function(df, school = "school", from = "num", to = "abbr"){
 
     if(to == "name"){
       ref = select(ref,num,name)
-      ref = rename(ref,school.name = num)
+      ref = rename(ref,school.name = name)
     }
 
     #now join to the reference table
-    df = left_join(df, ref, by = "num")
+    df = suppressWarnings(left_join(df, ref, by = "num"))
     df = select(df,-num)
     return(df)
   }
@@ -72,7 +125,7 @@ label.schools <- function(df, school = "school", from = "num", to = "abbr"){
 
   if(from == "abbr"){
 
-    df$abbr = df[,school]
+    df$abbr = as.character(df[,school])
 
     #cut out that old school code
     df[which(df[,"abbr"] %in% c("ECRA","AFES")),"abbr"] = "ECCS"
@@ -96,42 +149,41 @@ label.schools <- function(df, school = "school", from = "num", to = "abbr"){
   #######
   # NAME#
   #######
-
+  #progress! Now we just gotta fix this part
   #okay now for the hard part. We gotta figure out how to do this framgenting match
 
   #let's write a function to do the name matching
-  infrags <- function(nam){
+  infrags2 <- function(nam,type){
+
+    #loop through the rows of convtable
     for(i in 1:nrow(convtable)){
 
-      #we're creating a list of whether the character name matches the fragments
-      matches = c(grepl(x = nam,convtable[i,"frag1"],ignore.case = TRUE),
-                  grepl(x = nam,convtable[i,"frag2"],ignore.case = TRUE),
-                  grepl(x = nam,convtable[i,"frag3"],ignore.case = TRUE),
-                  grepl(x = nam,convtable[i,"frag4"],ignore.case = TRUE))
-      #if it matches one or more fragments, we look up  that value in the convtable
-      #and return the value from the 'to' column
-      if(sum(matches)>0){
-          return(convtable[i,to])
+      #loop through the fragments
+      for(j in c("frag1","frag2","frag3","frag4")){
+
+        #check if the input or the fragment are subsets of eachother
+        if(double.regex(nam,convtable[i,j],ignore.case = TRUE)){
+          return(convtable[i,type])
+        }
       }
-
-
-
     }
+    #if we don't hit return a NA
     return(NA)
 
   }
 
 
 
-
   if(from == "name"){
     #make a blank  vector to store the output
-    df$tmp = NA
+    df$tmp = ""
+
 
     #run through all the values in the schol variable, run the infrags function
     #store in tmp
     for(i in 1:nrow(df)){
-     df$tmp[i] = infrags(df[i,school])
+     df$tmp[i] = infrags2(vec[i],type = to)
+
     }
 
     #rename based on the 'to' argument
@@ -145,8 +197,10 @@ label.schools <- function(df, school = "school", from = "num", to = "abbr"){
       df = rename(df,school.name = tmp)
     }
 
-
     return(df)
   }
 
 }
+
+
+

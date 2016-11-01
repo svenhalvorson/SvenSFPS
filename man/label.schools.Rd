@@ -10,7 +10,7 @@ Convert School Labels for SFPS
 EX: 8, "AMES", "Acequia Madre Elementary"
 }
 \usage{
-\code{label.schools(df, school = "school", from = "num", to = "abbr")}
+\code{label.schools <- function(df, school = "school", to = "abbr", from = NA)}
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -28,8 +28,7 @@ the form of the new column of df. Choose from \code{c("num","abbr","name")}.
 }
 }
 \details{
-\code{label.schools} uses the data set \code{convtable} included in SvenR.
-The old codes for El Camino Real are coerced to num = 11 or abbr = "ECCS" from 174 and c("ECRA","AFES").
+\code{label.schools} uses the data set \code{convtable} included in SvenR. If the \code{from} argument is left as \code{NA}, \code{label.schools} will attempt to determine which form it's in. The old codes for El Camino Real are coerced to num = 11 or abbr = "ECCS" from 174 and c("ECRA","AFES").
 }
 \value{
 df with an additional column denoted school.\code{to}
@@ -52,8 +51,8 @@ Sven Halvorson (svenedmail@gmail.com)%%  ~~who you are~~
 \examples{
   data = data.frame(c("madre elem","Agua Fria","Capital"))
   colnames(data) = "esquela"
-  data = label.schools(df = data, school = "esquela", from = "name", to = "name")
-  data = label.schools(df = data, school = "school.name", from = "name", to = "abbr")
+  data = label.schools(df = data, school = "esquela", to = "name")
+  data = label.schools(df = data, school = "school.name", to = "abbr")
   data
 
   #Bojangles! We did it!
