@@ -2,6 +2,11 @@
 # both arguments should be single characters
 double.regex <- function(a, b, ignore.case = FALSE){
 
+  #protect against NA
+  if(is.na(a) | is.na(b)){
+    return(FALSE)
+  }
+
   #can only take in length 1
   if(length(a) != 1 | length(b) != 1){
 

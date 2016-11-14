@@ -13,5 +13,6 @@ svenpacks <- function(work = TRUE, ext =""){
   library(reshape2)
   library(xlsx)
   #library(corr)
-
+  library(readxl)
+  library(knitr)
 }

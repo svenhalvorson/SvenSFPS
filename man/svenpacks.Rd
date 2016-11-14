@@ -10,10 +10,12 @@ It  calls \code{library()} for the following packages
   \item{devtools}
   \item{dplyr}
   \item{ggplot2}
+  \item{knitr}
   \item{reshape2}
   \item{stringr}
+  \item{readxl}
   \item{xlsx}
-
+  
 }
 Additionally, it sets the wd as my home folder at work. \code{ext} can specify a subdirectory
 

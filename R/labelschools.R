@@ -34,7 +34,8 @@ label.schools <- function(df, school = "school", to = "abbr", from = NA){
 
   #okay we're gonna try a different approach
   #let's making a copy of the school variable and use it as our working vector
-  vec = as.character(df[,school])
+  #and take only the non missing
+  vec = as.character(df[!is.na(df[,school]) & df[,school] != "",school])
 
   #now try to detect the type of the from argument
   if(is.na(from)){
