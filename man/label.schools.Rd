@@ -21,15 +21,14 @@ a data frame
 the column representing the school variable. Must be a column in df.
 }
   \item{from}{
-The existing form that \code{school} is in. Choose from \code{c("num","abbr","name")}. If \code{from == "name"}, \code{label.schools} will attempt to match \code{school} to fragments of the long name.
+The existing form that \code{school} is in. You can select from \code{c("num","abbr","name")} or leave \code{from = NA} and let label.schools guess which form it's in. If \code{from == "name"}, \code{label.schools} will attempt to match \code{school} to fragments of the long name.
 }
   \item{to}{
 the form of the new column of df. Choose from \code{c("num","abbr","name")}.
 }
 }
-\details{
-\code{label.schools} uses the data set \code{convtable} included in SvenR. If the \code{from} argument is left as \code{NA}, \code{label.schools} will attempt to determine which form it's in. The old codes for El Camino Real are coerced to num = 11 or abbr = "ECCS" from 174 and c("ECRA","AFES").
-}
+\details{\code{label.schools} uses the data set convtable included in SvenR. The old codes for El Camino Real are coerced to \code{num} = 11 or \code{abbr} = "ECCS" from 174 and c("ECRA","AFES").}
+
 \value{
 df with an additional column denoted school.\code{to}
 }

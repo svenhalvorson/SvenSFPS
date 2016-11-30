@@ -10,7 +10,7 @@ label.schools <- function(df, school = "school", to = "abbr", from = NA){
 
   #check to see that parameters specified correctly
   if(!(from %in% c("num","abbr","name", NA))){
-    stop("from argument must be in num, abbr, name, or left blank")
+    stop("from argument must be num, abbr, name, or left blank")
   }
 
   if(!(to %in% c("num","abbr","name"))){
