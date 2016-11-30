@@ -55,7 +55,7 @@ smerge <- function(x, y, by = intersect(names(x), names(y)),
     "\n\nMatched",str_dup(" ",times=32-nchar("Matched")-nchar(matches)),matches,"  _merge ==  0","\n",line)
     )
 
-
+  return(mer)
 }
 
 test1 = as.data.frame(c("A","B","C","D"))
