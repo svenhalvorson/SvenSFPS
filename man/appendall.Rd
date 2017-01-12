@@ -16,7 +16,7 @@ append.all(type=c("xslx","csv","tab"),
 The file type. XLSX, CSV, and tab delimited.
 }
   \item{folder}{
-The directory to look in. If not specified you can use a popup to select the directory
+The directory to look in. If not specified, \code{append.all} will use your current directory
 }
   \item{patt}{
 A regular expression to be matched within the file names

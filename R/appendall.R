@@ -4,9 +4,13 @@
 append.all <- function(type=c("xslx","csv","tab"), folder=NULL, patt="",  head = TRUE){
 
   require("xlsx")
-  #if the user does not specify a directory, let them manually choose
+  require("dplyr")
+
+
+
+  #if the user does not specify a directory, use the currentwd
   if(is.null(folder)){
-    folder = choose.dir()
+    folder = getwd()
   }
 
 
@@ -19,6 +23,7 @@ append.all <- function(type=c("xslx","csv","tab"), folder=NULL, patt="",  head =
     stop("No files fit that pattern in that directory")
 
   }
+
 
   #Now we will take in the first file
   if(type == "xlsx"){
@@ -50,7 +55,7 @@ append.all <- function(type=c("xslx","csv","tab"), folder=NULL, patt="",  head =
     #Now bind it to the running total
     if(dim(temp)[1] !=0){
       temp$source.file = files[i]
-      df = rbind(df,temp)
+      df = bind_rows(df,temp)
     }
   }
 

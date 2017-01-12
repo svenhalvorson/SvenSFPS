@@ -27,8 +27,8 @@ smerge <- function(x, y, by = intersect(names(x), names(y)),
   mer = merge(x, y, by,by.x, by.y, all, all.x, all.y, sort, suffixes)
 
   #The NA's in the LHS and RHS columns now represent the number of unmatched elements
-  onlyx = sum(is.na(mer$LHS_))
-  onlyy = sum(is.na(mer$RHS_))
+  onlyx = sum(is.na(mer$RHS_))
+  onlyy = sum(is.na(mer$LHS_))
 
   #now fill in zeroes for the pieces that didnt match
   mer$LHS__[is.na(mer$LHS__)] = 0
@@ -49,7 +49,7 @@ smerge <- function(x, y, by = intersect(names(x), names(y)),
 
   writeLines(
     paste("Merging by",paste(by,collapse=", "),
-    "\n\nResult\t\t\t# of obs\n",line,"\nNot matched",str_dup(" ",times=32-nchar("Not matched")-nchar(notmatched)),notmatched,
+    "\n\nResult\t\t\t  # of obs\n",line,"\nNot matched",str_dup(" ",times=32-nchar("Not matched")-nchar(notmatched)),notmatched,
     "\n   LHS Only",str_dup(" ",times=29-nchar("LHS Only")-nchar(onlyx)),onlyx,"  _merge == -1",
     "\n   RHS Only",str_dup(" ",times=29-nchar("RHS Only")-nchar(onlyy)),onlyy,"  _merge ==  1",
     "\n\nMatched",str_dup(" ",times=32-nchar("Matched")-nchar(matches)),matches,"  _merge ==  0","\n",line)
@@ -58,12 +58,13 @@ smerge <- function(x, y, by = intersect(names(x), names(y)),
   return(mer)
 }
 
-test1 = as.data.frame(c("A","B","C","D"))
-colnames(test1) = "letter"
-test1$num = 1:4
-test1$pork = c("bacon","carnitas","ham","chops")
 
-test2 = as.data.frame(c("B","C","E","A"))
-colnames(test2) = "letter"
-test2$num = c(2,3,4,5)
-test2$chicken = c("wings","sandwich","fried","drumstick")
+# test1 = as.data.frame(c("A","B","C","D"))
+# colnames(test1) = "letter"
+# test1$num = 1:4
+# test1$pork = c("bacon","carnitas","ham","chops")
+#
+# test2 = as.data.frame(c("B","C","E","A"))
+# colnames(test2) = "letter"
+# test2$num = c(2,3,4,5)
+# test2$chicken = c("wings","sandwich","fried","drumstick")
