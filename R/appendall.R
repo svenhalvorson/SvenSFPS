@@ -1,13 +1,14 @@
 #gonna write a program to do some all purpose appending
 
 
-append.all <- function(type=c("xslx","csv","tab"), folder=NULL, patt="",  head = TRUE){
+append.all <- function(type=c("xslx","csv","tab"), folder=NULL, patt="",  head = TRUE, stringsAsFactors = FALSE){
 
   require("xlsx")
   require("dplyr")
 
-
-
+  #use a different variable to avoid confusion
+  factors = stringsAsFactors
+  
   #if the user does not specify a directory, use the currentwd
   if(is.null(folder)){
     folder = getwd()
@@ -27,13 +28,13 @@ append.all <- function(type=c("xslx","csv","tab"), folder=NULL, patt="",  head =
 
   #Now we will take in the first file
   if(type == "xlsx"){
-    df = read.xlsx(file = files[1], as.data.frame = TRUE, header = head, sheetIndex = 1)
+    df = read.xlsx(file = files[1], as.data.frame = TRUE, header = head, sheetIndex = 1, stringsAsFactors = factors)
   }
   if(type == "csv"){
-    df = read.csv(file=files[1], header = head)
+    df = read.csv(file=files[1], header = head, stringsAsFactors = factors)
   }
   if(type == "tab"){
-    df = read.table(file = files[1], header=head)
+    df = read.table(file = files[1], header=head, stringsAsFactors = factors)
   }
 
   #Also want to attache the file name to it so we can identify which obs come from which set
@@ -43,13 +44,13 @@ append.all <- function(type=c("xslx","csv","tab"), folder=NULL, patt="",  head =
   for(i in 2:length(files)){
     #make a temp file
     if(type == "xlsx"){
-      temp = read.xlsx(file = files[i], as.data.frame = TRUE, header = head, sheetIndex = 1)
+      temp = read.xlsx(file = files[i], as.data.frame = TRUE, header = head, sheetIndex = 1, stringsAsFactors = factors)
     }
     if(type == "csv"){
-      temp = read.csv(file=files[i], header = head)
+      temp = read.csv(file=files[i], header = head, stringsAsFactors = factors)
     }
     if(type == "tab"){
-      temp = read.table(file = files[i], header=head, sep = "/t")
+      temp = read.table(file = files[i], header=head, sep = "/t", stringsAsFactors = factors)
     }
 
     #Now bind it to the running total

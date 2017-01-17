@@ -9,7 +9,8 @@ Appends all files of a similar type in a single directory.
 }
 \usage{
 append.all(type=c("xslx","csv","tab"),
-            folder=NULL, patt="",  head = TRUE)}
+            folder=NULL, patt="",  head = TRUE, 
+            stringsAsFactors = FALSE)}
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{type}{
@@ -23,6 +24,9 @@ A regular expression to be matched within the file names
 }
   \item{head}{
 Whether or not the files have a header
+}
+  \item{stringsAsFactors}{
+Inherited by read.table. Should character variables be converted to factors?
 }
 }
 \details{
