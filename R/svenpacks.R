@@ -6,6 +6,7 @@ svenpacks <- function(work = TRUE, ext =""){
     di = paste("C:/Users/shalvorson/Documents/R files","/",ext, sep= "")
     setwd(di)
   }
+  library(lubridate)
   library(devtools)
   library(dplyr)
   library(ggplot2)

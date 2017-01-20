@@ -2,14 +2,14 @@
 \alias{append.all}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Append All
+Append all files in a folder
 }
 \description{
 Appends all files of a similar type in a single directory.
 }
 \usage{
 append.all(type=c("xslx","csv","tab"),
-            folder=NULL, patt="",  head = TRUE, 
+            folder=NULL, patt="",  head = TRUE,
             stringsAsFactors = FALSE)}
 %- maybe also 'usage' for other objects documented here.
 \arguments{
