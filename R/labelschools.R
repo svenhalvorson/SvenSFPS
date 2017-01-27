@@ -4,6 +4,8 @@
 
 label.schools <- function(df, school = "school", to = "abbr", from = NA){
 
+  library("dplyr")
+
   if(!is.data.frame(df)){
     stop("df must be a data frame")
   }
