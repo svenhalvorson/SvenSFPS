@@ -13,7 +13,7 @@ school.year <- function(date){
   }
 
   #now we decide the month is at least 8 for the month
-  month.flag = month(date)<7
+  month.flag = month(date)<8
 
   #numeric vector of years
   year = year(date)

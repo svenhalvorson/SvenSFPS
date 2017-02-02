@@ -17,7 +17,7 @@ a date object
 }
 }
 \details{
-\code{school.year} takes in a date object and returns a character vector denoting the school year for which that date falls within. It considers July 1st the first day of that school year.
+\code{school.year} takes in a date object and returns a character vector denoting the school year for which that date falls within. It considers Aug 1st the first day of that school year.
 }
 \value{
 A character vector
