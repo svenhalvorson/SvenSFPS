@@ -10,7 +10,10 @@ Convert School Labels for SFPS
 EX: 8, "AMES", "Acequia Madre Elementary"
 }
 \usage{
-\code{label.schools <- function(df, school = "school", to = "abbr", from = NA)}
+\code{label.schools(df, school = "school",
+                        to = "abbr",
+                        from = NA,
+                        current = FALSE)}
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -25,6 +28,9 @@ The existing form that \code{school} is in. You can select from \code{c("num","a
 }
   \item{to}{
 the form of the new column of df. Choose from \code{c("num","abbr","name")}.
+}
+  \item{current}{
+if \code{TRUE}, \code{label.schools} will also return a logical indicating whether or not the school is one of our active schools
 }
 }
 \details{\code{label.schools} uses the data set convtable included in SvenR. The old codes for El Camino Real are coerced to \code{num} = 11 or \code{abbr} = "ECCS" from 174 and c("ECRA","AFES").}

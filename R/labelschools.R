@@ -2,7 +2,7 @@
 #to the schools at SFPS
 #going to call the output 'vec'
 
-label.schools <- function(df, school = "school", to = "abbr", from = NA){
+label.schools <- function(df, school = "school", to = "abbr", from = NA, current = FALSE){
 
   library("dplyr")
 
@@ -119,7 +119,6 @@ label.schools <- function(df, school = "school", to = "abbr", from = NA){
     #now join to the reference table
     df = suppressWarnings(left_join(df, ref, by = "num"))
     df = select(df,-num)
-    return(df)
   }
 
   #######
@@ -146,7 +145,6 @@ label.schools <- function(df, school = "school", to = "abbr", from = NA){
     #now join to the reference table
     df = suppressWarnings(left_join(df, ref, by = "abbr"))
     df = select(df,-abbr)
-    return(df)
   }
 
   #######
@@ -200,8 +198,48 @@ label.schools <- function(df, school = "school", to = "abbr", from = NA){
       df = rename(df,school.name = tmp)
     }
 
-    return(df)
+
+
+
   }
+
+  #Now we're gonna tag on another option to return a vector saying if the school is one of our 'normal'
+    #schools. If current = TRUE, we'll return an extra vector
+
+    active.schools.num = c(141 ,54 ,12 ,8 ,24 ,33 ,20 ,188 ,5 ,22 ,146 ,9 ,7 ,
+                186 ,11 ,166 ,135 ,99 ,169 ,57 ,70 ,173 ,145 ,170 ,
+                168 ,110 ,100 ,23 ,52 ,143 ,165 ,130 ,34 ,160 ,78 ,
+                176 ,53,7)
+
+    active.schools.abbr = c("ABCS","ACCS","ALHS","AMES","ATC","ATES","CAHS",
+                         "CAMS","CCES","CGES","CHES","DC","DRS","DVMS",
+                         "ECCS","ECO","EDCS","EJES","ENHS","GOCS","KEES",
+                         "MIMS","NAES","NOCS","NYEB","ORMS","PIES","RTES",
+                         "RTH","SAES","SFHS","SWES","SWPK","TEES","TEP",
+                         "WGES","ZBS")
+
+    if(current){
+      browser()
+      if(to == "abbr"){
+        df$current.school = df$school.abbr %in% active.schools.abbr
+      }
+      if(to == "num"){
+        df$current.school = df$school.num %in% active.schools.num
+      }
+
+      if(to == "name"){
+        if(from == "abbr"){
+          df$current.school = df[,school] %in% active.schools.abbr
+        }
+        if(from == "num"){
+          df$current.school = df[,school] %in% active.schools.num
+        }
+      }
+    }
+
+
+
+  return(df)
 
 }
 
