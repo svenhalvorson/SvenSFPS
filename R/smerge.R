@@ -44,7 +44,7 @@ smerge <- function(x, y, by = intersect(names(x), names(y)),
 
 
   #now make labels for interpretation
-  mer$merge_ = factor(mer$merge, levels = c(-1,0,1), labels = c("X only", "Matched", "Y only"))
+  mer$merge_ = factor(mer$merge, levels = c(-1,0,1), labels = c("LHS only", "Matched", "RHS only"))
   mer = select(mer,-LHS__,-RHS__)
 
   writeLines(
