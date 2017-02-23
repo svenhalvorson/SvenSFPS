@@ -28,8 +28,8 @@ school.year <- function(date){
   year2[year2=="100"] = "00"
 
   #okie so the cases when we're talking about 2009 gives a 9 not 09
-  year[nchar(year) == 1] = paste0("0", year[nchar(year) == 1])
-  year2[nchar(year2) == 1] = paste0("0", year2[nchar(year2) == 1])
+  year[nchar(year) == 1 & !is.na(year)] = paste0("0", year[nchar(year) == 1 & !is.na(year)])
+  year2[nchar(year2) == 1 & !is.na(year2)] = paste0("0", year2[nchar(year2) == 1 & !is.na(year2)])
 
   #paste and return
   school.year = paste(year, year2, sep="-")
