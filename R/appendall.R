@@ -8,7 +8,7 @@ append.all <- function(type=c("xslx","csv","tab"), folder=NULL, patt="",  head =
 
   #use a different variable to avoid confusion
   factors = stringsAsFactors
-  
+
   #if the user does not specify a directory, use the currentwd
   if(is.null(folder)){
     folder = getwd()
@@ -38,10 +38,23 @@ append.all <- function(type=c("xslx","csv","tab"), folder=NULL, patt="",  head =
   }
 
   #Also want to attache the file name to it so we can identify which obs come from which set
-  df$source.file = files[1]
-
+  j = 1
+  found = 0
+  while(found == 0){
+    if(nrow(df)>0){
+      print(paste0("Loading ",files[1]))
+      df$source.file = files[j]
+      found = 1
+    }
+    if(j > length(files)){
+      stop("No observations found")
+      found == 1
+    }
+    j = j+1
+  }
   #next we'll loop through the rest of the files and append them
-  for(i in 2:length(files)){
+  for(i in (j+1):length(files)){
+    print(paste0("Loading ",files[i]))
     #make a temp file
     if(type == "xlsx"){
       temp = read.xlsx(file = files[i], as.data.frame = TRUE, header = head, sheetIndex = 1, stringsAsFactors = factors)
@@ -54,7 +67,7 @@ append.all <- function(type=c("xslx","csv","tab"), folder=NULL, patt="",  head =
     }
 
     #Now bind it to the running total
-    if(dim(temp)[1] !=0){
+    if(nrow(temp) !=0){
       temp$source.file = files[i]
       df = bind_rows(df,temp)
     }
