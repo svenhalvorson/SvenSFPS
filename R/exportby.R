@@ -3,6 +3,8 @@
 
 export.by <- function(df, by, form = c("tab", "file")) {
   #verify that we have a data frame
+  require("xlsx")
+  
   if (!(class(df) %in% c("data.frame", "matrix"))) {
     stop("df must be a data frame or matrix")
   }

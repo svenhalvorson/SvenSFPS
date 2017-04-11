@@ -3,7 +3,7 @@
 
 append.all <- function(type=c("xslx","csv","tab"), folder=NULL, patt="",  head = TRUE, stringsAsFactors = FALSE){
 
-  require("xlsx")
+  require("tidyverse")
   require("dplyr")
 
   #use a different variable to avoid confusion
@@ -28,7 +28,7 @@ append.all <- function(type=c("xslx","csv","tab"), folder=NULL, patt="",  head =
 
   #Now we will take in the first file
   if(type == "xlsx"){
-    df = read.xlsx(file = files[1], as.data.frame = TRUE, header = head, sheetIndex = 1, stringsAsFactors = factors)
+    df = read_excel(path = files[1], sheet = 1)
   }
   if(type == "csv"){
     df = read.csv(file=files[1], header = head, stringsAsFactors = factors)
