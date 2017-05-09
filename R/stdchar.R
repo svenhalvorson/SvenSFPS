@@ -13,8 +13,9 @@ stdchar <- function(x){
     newvec <- trimws(newvec,which = "both")
     #nenewvect we'll replace any internal blanks with dashes
     newvec <- gsub(pattern=" +",replacement = "-",x=newvec)
-    newvec <- gsub(pattern=",+",replacement = "",x=newvec)
-    newvec <- gsub(pattern="--",replacement = "-",x=newvec)
+    newvec <- gsub(pattern=",+",replacement = "-",x=newvec)
+    newvec <- gsub(pattern="_+",replacement = "-",x=newvec)
+    newvec <- gsub(pattern="-{2,}",replacement = "-",x=newvec)
 
     #make sure everything is capitalized
     newvec <- as.character(toupper(newvec))
