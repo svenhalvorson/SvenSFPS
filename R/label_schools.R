@@ -2,7 +2,7 @@
 #to the schools at SFPS
 #going to call the output 'vec'
 
-label.schools <- function(df, school = "school", to = "abbr", from = NA, current = FALSE){
+label_schools <- function(df, school = "school", to = "abbr", from = NA, current = FALSE){
 
   library("dplyr")
 

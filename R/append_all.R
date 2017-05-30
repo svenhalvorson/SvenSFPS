@@ -1,7 +1,7 @@
 #gonna write a program to do some all purpose appending
 
 
-append.all <- function(type=c("xslx","csv","tab"), folder=NULL, patt="",  head = TRUE, stringsAsFactors = FALSE){
+append_all <- function(type=c("xslx","csv","tab"), folder=NULL, patt="",  head = TRUE, stringsAsFactors = FALSE){
 
   require("tidyverse")
   require("dplyr")

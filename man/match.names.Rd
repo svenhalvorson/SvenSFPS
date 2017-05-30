@@ -5,8 +5,7 @@
 Match by Name
 }
 \description{
-\code{match.names} is a function that takes in two data frames and merges them on DOB and
-gender. It then tries to decide which of the observations in \code{df1} and \code{df2} are the same by. It does this by using exact and regular expression matching on first and last name.
+Note that this function is deprecated: use \code{match_names} for a more general, speedier function. \code{match.names} is a function that takes in two data frames and merges them on DOB and gender. It then tries to decide which of the observations in \code{df1} and \code{df2} are the same by. It does this by using exact and regular expression matching on first and last name.
 }
 \usage{
 match.names(df1, df2)

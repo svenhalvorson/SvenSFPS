@@ -12,7 +12,7 @@ match_names <- function(df1, df2, fixed = NA, partials = NA,
   # Safegaurds --------------------------------------------------------------
   
   # Both df1 and df2 must be data frames
-  if(class(df1) != "data.frame" | class(df2) != "data.frame"){
+  if(!("data.frame" %in% class(df1)) | !("data.frame" %in% class(df2))){
     stop("df1 and df2 must be data frames.")
   }
   
@@ -67,9 +67,9 @@ match_names <- function(df1, df2, fixed = NA, partials = NA,
   
   # Now tack on the exact matches column
   merged$exact_match = as.logical(apply(X = matchMat, MARGIN = 1, FUN = min))
+  rm(matchMat)
   
   # Edit Distances ---------------------------------------------------------
-  
   if(edits){
     # Now we'll use this function to compute the mean number of characters 
     # across the two columns
@@ -80,9 +80,15 @@ match_names <- function(df1, df2, fixed = NA, partials = NA,
     for(i in 1:length(partials)){
       # compute the approximate string distance
       col = paste0(partials[i],"_count")
-      merged[,col] = diag(adist(x = merged[,colMat[i,1]],
-                                y = merged[,colMat[i,2]])
-      )
+      # browser()
+      # merged[,col] = diag(adist(x = merged[,colMat[i,1]],
+      #                           y = merged[,colMat[i,2]])
+      # )
+      merged[,col] = NA
+      for(j in 1:nrow(merged)){
+        merged[j,col] = adist(x = merged[j,colMat[i,1]],
+                              y = merged[j,colMat[i,2]])
+      }
       # Compute the average number of characters between both columns
       characters = apply(X = merged[,colMat[i,]], MARGIN = 1, FUN = mean_char)
       col2 = paste0(partials[i],"_prop")
@@ -111,6 +117,9 @@ match_names <- function(df1, df2, fixed = NA, partials = NA,
     std_y = unlist(strsplit(x = stdchar(y), split = "-"))
 
     for(nam in std_x){
+      if(is.na(nam)){
+        next()
+      }
       if(sum(grepl(pattern = nam, x = std_y)) > 0){
         return(TRUE)
       }
@@ -123,21 +132,16 @@ match_names <- function(df1, df2, fixed = NA, partials = NA,
     # Take that part of the merged frame
     subset = merged[,colMat[i,]]
     merged[,paste0(partials[i],"_regex")] = NA
+    # Since the subnames function is not symmetric, let's take a max of both ways.
     for(j in 1:nrow(merged)){
-      merged[j,paste0(partials[i],"_regex")] = sub_name(subset[j,1], subset[j,2])
+      merged[j,paste0(partials[i],"_regex")] = max(sub_name(subset[j,1], subset[j,2]),
+                                                   sub_name(subset[j,2], subset[j,1]))
     }
     
   }
   
-  
   return(merged)
 }
-setwd("C:/Users/shalvorson/Documents/R files/Name Matcher tests")
-t1 <- read.csv(file = "Book1.csv", stringsAsFactors = FALSE)
-t2 <- read.csv(file = "Book2.csv", stringsAsFactors = FALSE)
-test <- read.csv(file = "C:/Users/shalvorson/Documents/Data Requests/Title II/stillmissing.csv")
-
-
 
 
 

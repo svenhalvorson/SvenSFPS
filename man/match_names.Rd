@@ -1,6 +1,5 @@
 \name{match_names}
 \alias{match_names}
-Match by strings
 \title{
 Fuzzy matcher
 }
@@ -30,8 +29,8 @@ if \code{TRUE} partial regular expression matches returned
 }
 }
 \details{
-\code{match_names} is a function designed to help find duplicates within a data set or find matches between simliar data sets. Often you will want to determine the \code{fixed} by which values are most likely to match (like DOB). Then use the function and sort by some of the measures. A small edit distance or proportion indicates likely match.
-} 
+\code{match_names} is a function designed to help find duplicates within a data set or find matches between simliar data sets. Often you will want to determine the \code{fixed} by which values are most likely to match (like DOB). Then use the function and sort by some of the measures. A small edit distance or proportion indicate a likely match.
+}
 \value{
 a data frame composed of \code{df1} and \code{df2} merged. Additional columns may include \code{_count} which are edit distances, \code{_prop} variables are the ratio of the edit distance to the mean number of characters, and \code{_regex} columns which indicate whether a subset of one name matches the other.
 }
@@ -58,7 +57,7 @@ df2 = data.frame(x = c(2,3,2,1,1),
                   y = c("tritip","biceratops", "triplane", "tripline", "tricycle" ),
                   stringsAsFactors = FALSE)
 df3 = match_names(df1, df2, fixed = "x", partials = "y")
-
+}
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
-\keyword{SvenR}% use one of  RShowDoc("KEYWORDS")
+\keyword{~SvenR}% use one of  RShowDoc("KEYWORDS")

@@ -1,5 +1,5 @@
-\name{append.all}
-\alias{append.all}
+\name{append_all}
+\alias{append_all}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Append all files in a folder
@@ -8,7 +8,7 @@ Append all files in a folder
 Appends all files of a similar type in a single directory.
 }
 \usage{
-append.all(type=c("xslx","csv","tab"),
+append_all(type=c("xslx","csv","tab"),
             folder=NULL, patt="",  head = TRUE,
             stringsAsFactors = FALSE)}
 %- maybe also 'usage' for other objects documented here.
@@ -51,7 +51,7 @@ Returns a composite data frame of all the files. Bananaphone.
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-append.all(type = "csv", dir = "C:/Users/shalvorson/Documents", pat = "new.csv")
+append_all(type = "csv", dir = "C:/Users/shalvorson/Documents", pat = "new.csv")
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
