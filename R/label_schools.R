@@ -33,11 +33,17 @@ label_schools <- function(df, school = "school", to = "abbr", from = NA, current
   if(sum(colnames(df) == school) > 1){
     stop("multiple columns matching school argument")
   }
+  
+  # This is pretty chintzy but I realized that something about the dplyr tibbles makes
+  # it so taking the school vector out is not so easy. I'm gonna make a copy of df
+  # and coerce it to data frame to find the school vec
+  ww = as.data.frame(df)
+  
 
   #okay we're gonna try a different approach
   #let's making a copy of the school variable and use it as our working vector
   #and take only the non missing
-  vec = as.character(df[!is.na(df[,school]) & df[,school] != "",school])
+  vec = as.character(ww[!is.na(ww[,school]) & ww[,school] != "",school])
 
   #now try to detect the type of the from argument
   if(is.na(from)){
@@ -83,10 +89,8 @@ label_schools <- function(df, school = "school", to = "abbr", from = NA, current
 
   #okay let's divide the work into sections based on the from argument because it's hardest
 
-  #######
-  # NUM #
-  #######
 
+# NUM ---------------------------------------------------------------------
 
 
   #assuming we have from == "num"
@@ -121,9 +125,10 @@ label_schools <- function(df, school = "school", to = "abbr", from = NA, current
     df = select(df,-num)
   }
 
-  #######
-  # ABBR#
-  #######
+
+
+# ABBR --------------------------------------------------------------------
+
 
   if(from == "abbr"){
 
@@ -147,11 +152,12 @@ label_schools <- function(df, school = "school", to = "abbr", from = NA, current
     df = select(df,-abbr)
   }
 
-  #######
-  # NAME#
-  #######
+
   #progress! Now we just gotta fix this part
   #okay now for the hard part. We gotta figure out how to do this framgenting match
+
+# NAME --------------------------------------------------------------------
+
 
   #let's write a function to do the name matching
   infrags2 <- function(nam,type){
@@ -197,13 +203,9 @@ label_schools <- function(df, school = "school", to = "abbr", from = NA, current
     if(to == "name"){
       df = rename(df,school.name = tmp)
     }
-
-
-
-
   }
 
-  #Now we're gonna tag on another option to return a vector saying if the school is one of our 'normal'
+  #Now we're gonna tack on another option to return a vector saying if the school is one of our 'normal'
     #schools. If current = TRUE, we'll return an extra vector
 
     active.schools.num = c(141 ,54 ,12 ,8 ,24 ,33 ,20 ,188 ,5 ,22 ,146 ,9 ,7 ,
