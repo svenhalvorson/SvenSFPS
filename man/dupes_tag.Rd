@@ -1,14 +1,14 @@
-\name{dupes.tag}
-\alias{dupes.tag}
+\name{dupes_tag}
+\alias{dupes_tag}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Tabulate Covariate Patterns
 }
 \description{
-\code{dupes.tag} is similar to the duplicates tag function in STATA. It takes in a data frame and returns that data frame with a an additional column labeled 'dupes'. Dupes is the count of all \bold{other} observations that have the same covariate pattern in the columns listed in \code{...}
+\code{dupes_tag} is similar to the duplicates tag function in STATA. It takes in a data frame and returns that data frame with a an additional column labeled 'dupes'. Dupes is the count of all \bold{other} observations that have the same covariate pattern in the columns listed in \code{...}
 }
 \usage{
-dupes.tag(df, ...)
+dupes_tag(df, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -46,7 +46,7 @@ test.set$v2 = sample(x = 1:2, size = 20, replace = TRUE)
 test.set$v3 = sample(x = c("foo", "bar"), size = 20, replace = TRUE)
 test.set = arrange(test.set,v1,v2,v3)
 
-dupes.tag(test.set,"v1","v2","v3")
+dupes_tag(test.set,"v1","v2","v3")
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

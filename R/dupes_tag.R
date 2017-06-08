@@ -3,7 +3,7 @@
 #called dupes.count which will tell the number of rows that have that exact
 #covariate pattern
 
-dupes.tag <- function(df,...){
+dupes_tag <- function(df,...){
 
   svenpacks()
   ###########

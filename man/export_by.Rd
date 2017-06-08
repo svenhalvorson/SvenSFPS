@@ -1,15 +1,15 @@
-\name{export.by}
-\alias{export.by}
+\name{export_by}
+\alias{export_by}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Export by a Factor
 }
 \description{
-\code{export.by} takes in a data frame and the name of one of its columns. It then groups the data by the levels of the chosen column and produces xlsx files accordingly.
+\code{export_by} takes in a data frame and the name of one of its columns. It then groups the data by the levels of the chosen column and produces xlsx files accordingly.
 .xlsx files
 }
 \usage{
-export.by(df, by, form = c("tab", "file"))
+export_by(df, by, form = c("tab", "file"))
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -25,7 +25,7 @@ export.by(df, by, form = c("tab", "file"))
 
 }
 \details{
-\code{export.by} uses your current directory so set it before running. Files are named according to the data frame you pass it. In sheets mode, the name of the file will be appended with "_tab.xlsx". In file mode, each file will be appended with the level and a master list will be produced too.
+\code{export_by} uses your current directory so set it before running. Files are named according to the data frame you pass it. In sheets mode, the name of the file will be appended with "_tab.xlsx". In file mode, each file will be appended with the level and a master list will be produced too.
 }
 
 \author{
@@ -33,7 +33,7 @@ Sven Halvorson (svenedmail@gmail.com)
 }
 
 \examples{
-export.by(df = mtcars, by = "cyl", form = "tab")
+export_by(df = mtcars, by = "cyl", form = "tab")
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
