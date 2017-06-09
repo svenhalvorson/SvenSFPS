@@ -1,11 +1,11 @@
 #okie we're gonna try to make a STATA style merge for R
 #since its merge function doesn't give very good description of what happened
 
-#main points are:
-#We should print the following things:
-# number of items matched
-# number of items not matched from left and right
-# total number of elements in new data set
+# main points are:
+# We should print the following things:
+#  number of items matched
+#  number of items not matched from left and right
+#  total number of elements in new data set
 
 #Also want to have a column that notes which of the three
 #categories that obs is in
@@ -17,7 +17,8 @@
 smerge <- function(x, y, by = intersect(names(x), names(y)),
                    by.x = by, by.y = by, all = TRUE, all.x = all, all.y = all,
                    sort = TRUE, suffixes = c(".x",".y")){
-  svenpacks(work = FALSE)
+  suppressMessages(library("dplyr"))
+  suppressMessages(library("stringr"))
 
   #so now we're gonna attach indicators to help us count and mark the two sets
   #pick really weird names thare are unlikely to be in the data frame
@@ -42,14 +43,13 @@ smerge <- function(x, y, by = intersect(names(x), names(y)),
   #formatting this output might be a little tough, here's a standard line of 32 characters
   line = "--------------------------------"
 
-
   #now make labels for interpretation
-  mer$merge_ = factor(mer$merge, levels = c(-1,0,1), labels = c("LHS only", "Matched", "RHS only"))
+  mer$merge_ = factor(mer$merge)
   mer = select(mer,-LHS__,-RHS__)
 
   writeLines(
     paste("Merging by",paste(by,collapse=", "),
-    "\n\nResult\t\t\t  # of obs\n",line,"\nNot matched",str_dup(" ",times=32-nchar("Not matched")-nchar(notmatched)),notmatched,
+    "\n\nResults\t\t\t  # of obs\n",line,"\nNot matched",str_dup(" ",times=32-nchar("Not matched")-nchar(notmatched)),notmatched,
     "\n   LHS Only",str_dup(" ",times=29-nchar("LHS Only")-nchar(onlyx)),onlyx,"  _merge == -1",
     "\n   RHS Only",str_dup(" ",times=29-nchar("RHS Only")-nchar(onlyy)),onlyy,"  _merge ==  1",
     "\n\nMatched",str_dup(" ",times=32-nchar("Matched")-nchar(matches)),matches,"  _merge ==  0","\n",line)
