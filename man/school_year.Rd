@@ -1,5 +1,5 @@
-\name{school.year}
-\alias{school.year}
+\name{school_year}
+\alias{school_year}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Generate school years
@@ -8,7 +8,7 @@ Generate school years
 Converts date objects to school years.
 }
 \usage{
-school.year(date)
+school_year(date)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -17,7 +17,7 @@ a date object
 }
 }
 \details{
-\code{school.year} takes in a date object and returns a character vector denoting the school year for which that date falls within. It considers Aug 1st the first day of that school year.
+\code{school_year} takes in a date object and returns a character vector denoting the school year for which that date falls within. It considers Aug 1st the first day of that school year.
 }
 \value{
 A character vector
@@ -41,7 +41,7 @@ Sven Halvorson (svenedmail@gmail.com)
 library("lubridate")
 d = c("10232015","02042016","08211999")
 d = mdy(d)
-school.year(d)
+school_year(d)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

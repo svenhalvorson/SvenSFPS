@@ -1,7 +1,7 @@
 #let's write a function to take in a data frame and export it by a variable
 
 
-export.by <- function(df, by, form = c("tab", "file")) {
+export_by <- function(df, by, form = c("tab", "file")) {
   #verify that we have a data frame
   require("xlsx")
   

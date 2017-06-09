@@ -3,7 +3,7 @@
 #the following format: The school year starting in september of 2016 should
 #be labeled 16-17
 
-school.year <- function(date){
+school_year <- function(date){
 
   library("lubridate")
 
