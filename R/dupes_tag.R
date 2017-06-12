@@ -5,13 +5,12 @@
 
 dupes_tag <- function(df,...){
 
-  svenpacks()
   ###########
   #safegaurds
   ###########
 
   #df must be a data frame
-  if(class(df) != "data.frame"){
+  if(!("data.frame" %in% class(df))){
     stop("df must be a data frame")
   }
 

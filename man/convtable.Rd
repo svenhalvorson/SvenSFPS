@@ -9,12 +9,13 @@ Table with conversions between number codes, 4 letter abbreviations, and charact
 }
 \usage{convtable}
 \format{
-  A data frame with 59 observations on the following 7 variables.
+  A data frame with 51 observations on the following 11 variables.
   \describe{
     \item{\code{num}}{numerical school code}
     \item{\code{abbr}}{4 letter code}
     \item{\code{name}}{long form name}
     \item{\code{frag}}{likely fragments of the name}
+    \item{\code{'2'}}{copies of name, num, and abbr for use of label_schools when \code{current == TRUE}}
   }
 }
 \details{
