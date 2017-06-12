@@ -5,38 +5,36 @@
 Convert School Labels for SFPS
 }
 \description{
-\code{label_schools} attaches a column to an existing data set containing a different label for the schools in SFPS. It can create a numeric ("num"), abbreviation ("abbr"), or long form name ("name").
+\code{label_schools} creates a vector containing a different label for the schools in SFPS. It can create a numeric ("num"), abbreviation ("abbr"), or long form name ("name").
 
 EX: 8, "AMES", "Acequia Madre Elementary"
 }
 \usage{
-\code{label_schools(df, school = "school",
-                        to = "abbr",
-                        from = NA,
-                        current = FALSE)}
+\code{label_schools(school,
+              to = "abbr",
+              from = NA,
+              current = TRUE)}
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{df}{
-a data frame
-}
+
   \item{school}{
-the column representing the school variable. Must be a column in df.
+an atomic vector of the schools to be relabeled.
 }
   \item{from}{
 The existing form that \code{school} is in. You can select from \code{c("num","abbr","name")} or leave \code{from = NA} and let label_schools guess which form it's in. If \code{from == "name"}, \code{label_schools} will attempt to match \code{school} to fragments of the long name.
 }
   \item{to}{
-the form of the new column of df. Choose from \code{c("num","abbr","name")}.
+the form of the output. Choose from \code{c("num","abbr","name")}.
 }
   \item{current}{
-if \code{TRUE}, \code{label_schools} will also return a logical indicating whether or not the school is one of our active schools
+if \code{TRUE}, \code{label_schools} returns the current name of the school, not the one that was listed. Ex: DVMS --> MMS
 }
 }
-\details{\code{label_schools} uses the data set convtable included in SvenR. The old codes for El Camino Real are coerced to \code{num} = 11 or \code{abbr} = "ECCS" from 174 and c("ECRA","AFES").}
+\details{\code{label_schools} uses the data set convtable included in \code{SvenR}. The old codes for El Camino Real are coerced to \code{num} = 11 or \code{abbr} = "ECCS" from 174 and c("ECRA","AFES").}
 
 \value{
-df with an additional column denoted school.\code{to}
+a vector of the relabeled values of \code{school}
 }
 \references{
 %% ~put references to the literature/web site here ~
@@ -54,11 +52,12 @@ Sven Halvorson (svenedmail@gmail.com)%%  ~~who you are~~
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-  data = data.frame(c("madre elem","Agua Fria","Capital"))
+  data = data.frame(c("madre elem","Agua Fria", "Gilberto University","Capital", "Capshawdawg"))
   colnames(data) = "esquela"
-  data = label_schools(df = data, school = "esquela", to = "name")
-  data = label_schools(df = data, school = "school.name", to = "abbr")
-  data
+  data$newname = label_schools(school = data$esquela, to = "name")
+  data$newname2 = label_schools(school = data$esquela, to = "name", current = FALSE)
+  data$num = label_schools(school = data$newname, to = "num")
+  View(data)
 
   #Bojangles! We did it!
 }

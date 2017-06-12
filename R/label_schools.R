@@ -1,249 +1,139 @@
-#we're gonna write a script to give standardized names and numbers
-#to the schools at SFPS
-#going to call the output 'vec'
+# Time to re-write this function.
+# We want the functionality to be basically the same but it was silly
+# to accept a data frame as an argument and return the data frame
+# with the names I chose. Let's make it take in a schooltor or column
+# and return the matching column of new values
+# It also should cache the matches it finds so that it's faster than re-doing
+# all the regular expression matching
 
-label_schools <- function(df, school = "school", to = "abbr", from = NA, current = FALSE){
+# ARGUMENTS
+# school : the values to be transformed
+# to : the form to convert to
+# from : the form school is in
+# current : should current schools be used only (DVMS -> MMS)
+
+label_schools <- function(school, to = "abbr", from = NA, current = TRUE){
 
   library("dplyr")
 
-  if(!is.data.frame(df)){
-    stop("df must be a data frame")
+
+  # SAFEGAURDS --------------------------------------------------------------
+  # school should be an atomic schooltor
+  # from should be one of abbr, name, or num.
+  # current should be logical
+
+  if(!is.atomic(school)){
+    stop("school must be atomic")
   }
 
-  #check to see that parameters specified correctly
-  if(!(from %in% c("num","abbr","name", NA))){
-    stop("from argument must be num, abbr, name, or left blank")
+  if(!(to %in% c("abbr", "name", "num"))){
+    stop("to must be one of abbr, name, or num)")
   }
-
-  if(!(to %in% c("num","abbr","name"))){
-    stop("to argument must be in num, abbr, name")
-  }
-
   if(!is.na(from)){
-    if((from == "num" & to == "num") | (from == "abbr" & to == "abrr")){
-      stop("from and to arguments should be different or both 'name'")
+    if(!(from %in% c("abbr", "name", "num"))){
+      stop("from must be one of abbr, name, or num)")
     }
   }
+  if(!is.atomic(current) | length(current)>1 | !(current %in% c(TRUE, FALSE))){
+    stop("current must be TRUE or FALSE")
+  }
+  message(paste0(sum(is.na(school) | school == ""), " blank entries detected in school"))
 
-  #check if there exactly one column matching the school argument
-  if(sum(colnames(df) == school) == 0){
-    stop("school argument not found among columns")
+  # Make a copy of school to play with
+  school = suppressWarnings(as.character(school))
+  # and invoke the conversion table and set it up for whatever value of current
+  ref = convtable
+  if(!current){
+    convtable = select(convtable, -num2, -abbr2)
   }
 
-  if(sum(colnames(df) == school) > 1){
-    stop("multiple columns matching school argument")
-  }
-  
-  # This is pretty chintzy but I realized that something about the dplyr tibbles makes
-  # it so taking the school vector out is not so easy. I'm gonna make a copy of df
-  # and coerce it to data frame to find the school vec
-  ww = as.data.frame(df)
-  
-
-  #okay we're gonna try a different approach
-  #let's making a copy of the school variable and use it as our working vector
-  #and take only the non missing
-  vec = as.character(ww[!is.na(ww[,school]) & ww[,school] != "",school])
-
-  #now try to detect the type of the from argument
+  # DETECT FROM -------------------------------------------------------------
+  # determine which form school is in
   if(is.na(from)){
-    #maybe it's clearly numeric, I guess we could accept some null values
-    #but maybe if <20% are NA when coerced we would say it's probably numeric
-    numtest = suppressWarnings(as.numeric(vec))
-    likelynum = sum(is.na(numtest))/length(numtest) < .2
-    if(likelynum){
+    # detect num
+    if(1.1 * sum(is.na(school)) >= sum(is.na(suppressWarnings(as.numeric(school))))){
       from = "num"
     }
-  }
-
-  #detect 4 character code
-  if(is.na(from)){
-    #let's try to work off the mean number of characters being between 3 and 4
-    numchar = nchar(vec)
-
-    if((mean(numchar)>3) & (mean(numchar)<=4)){
+    else if(mean(nchar(school))>3 & mean(nchar(school)) <= 4){
       from = "abbr"
     }
-
-
-  }
-
-  #detect long name form
-  if(is.na(from)){
-    #probably the name average name should be longer than 4 characters
-    numchar = nchar(vec)
-    if(mean(numchar)>4){
+    else if(mean(nchar(school))>4){
       from = "name"
     }
+    if(is.na(from)){
+      stop("Unable to determine from argument. Specify manually")
+    }
+
+
   }
 
-  #if it's still NA let's stop
-  if(is.na(from)){
-    stop("Unable to detect unspecified 'from' argument")
+  # Let's condense the code by using this function to retrieve output:
+  output <- function(to, current){
+    suffix = ""
+    if(current){
+      suffix = "2"
+    }
+    return(school[,paste0(to,suffix)])
   }
 
-
-
-  #load the conversion table
-  ref <- convtable
-
-  #okay let's divide the work into sections based on the from argument because it's hardest
-
-
-# NUM ---------------------------------------------------------------------
-
-
-  #assuming we have from == "num"
+  # from == "num" -------------------------------------------------------------
   if(from == "num"){
+    school = data.frame(num = as.numeric(school))
+    school = left_join(school, convtable, by = "num")
 
+    return(output(to, current))
 
-
-    #make sure argument is numeric and the columns match for merging
-    df$num = df[,school]
-    if(is.character(df$num)){
-      df$num = as.numeric(df$num)
-    }
-    if(is.factor(df$num)){
-      df$num = as.numeric(as.character(df$num))
-    }
-
-    #cut out that old school code
-    df$num[which(df$num == 174)] = 11
-
-    if(to == "abbr"){
-      ref = select(ref,num,abbr)
-      ref = rename(ref,school.abbr = abbr)
-    }
-
-    if(to == "name"){
-      ref = select(ref,num,name)
-      ref = rename(ref,school.name = name)
-    }
-
-    #now join to the reference table
-    df = suppressWarnings(left_join(df, ref, by = "num"))
-    df = select(df,-num)
   }
 
 
-
-# ABBR --------------------------------------------------------------------
-
-
+  # from == "abbr" ----------------------------------------------------------
   if(from == "abbr"){
 
-    df$abbr = as.character(df[,school])
+    school = data.frame(abbr = school, stringsAsFactors = FALSE)
+    school = left_join(school, convtable, by = "abbr")
 
-    #cut out that old school code
-    df[which(df[,"abbr"] %in% c("ECRA","AFES")),"abbr"] = "ECCS"
-
-    if(to == "num"){
-      ref = select(ref,abbr,num)
-      ref = rename(ref,school.num = num)
-    }
-
-    if(to == "name"){
-      ref = select(ref,abbr,name)
-      ref = rename(ref,school.name = name)
-    }
-
-    #now join to the reference table
-    df = suppressWarnings(left_join(df, ref, by = "abbr"))
-    df = select(df,-abbr)
+    return(output(to, current))
   }
 
-
-  #progress! Now we just gotta fix this part
-  #okay now for the hard part. We gotta figure out how to do this framgenting match
-
-# NAME --------------------------------------------------------------------
-
-
-  #let's write a function to do the name matching
-  infrags2 <- function(nam,type){
-
-    #loop through the rows of convtable
-    for(i in 1:nrow(convtable)){
-
-      #loop through the fragments
-      for(j in c("frag1","frag2","frag3","frag4")){
-
-        #check if the input or the fragment are subsets of eachother
-        if(double.regex(nam,convtable[i,j],ignore.case = TRUE)){
-          return(convtable[i,type])
-        }
-      }
-    }
-    #if we don't hit return a NA
-    return(NA)
-
-  }
-
-
-
+  # from == "name" ----------------------------------------------------------
+  # alright, now here's the hard part
+  #let's first define a table to store the matches we find
   if(from == "name"){
-    #make a blank  vector to store the output
-    df$tmp = ""
+    matches = matrix(data = NA, nrow = length(unique(school)), ncol = 2)
+    matches[,1] = unique(school)
 
+    # now this function will find the corresponding entry on the conv table
+    infrags <- function(name, current){
+      for(i in 1:length(ref$name)){
+        if(grepl(pattern = convtable$frag1[i], x = name, ignore.case = TRUE) |
+           grepl(pattern = convtable$frag2[i], x = name, ignore.case = TRUE) |
+           grepl(pattern = convtable$frag3[i], x = name, ignore.case = TRUE) |
+           grepl(pattern = convtable$frag4[i], x = name, ignore.case = TRUE) |
+           grepl(pattern = convtable$frag5[i], x = name, ignore.case = TRUE)){
 
-    #run through all the values in the schol variable, run the infrags function
-    #store in tmp
-    for(i in 1:nrow(df)){
-     df$tmp[i] = infrags2(vec[i],type = to)
+          return(convtable$name[i])
+        }
+      }
+      return(NA)
 
     }
 
-    #rename based on the 'to' argument
-    if(to == "num"){
-      df = rename(df,school.num = tmp)
-    }
-    if(to == "abbr"){
-      df = rename(df,school.abbr = tmp)
-    }
-    if(to == "name"){
-      df = rename(df,school.name = tmp)
-    }
+
+
+
+    # Now we go through the matches matrix and fill the second column with infrags
+    matches[,2] = apply(X = as.matrix(matches[,1]), MARGIN = 1, FUN = infrags, current = current)
+    # now we merge onto school
+    colnames(matches) = c("School","name")
+    school = data.frame(School = school, stringsAsFactors = FALSE)
+    school = suppressMessages(left_join(school, as.data.frame(matches, stringsAsFactors = FALSE)))
+
+    school = suppressMessages(left_join(school,ref))
+    out = output(to,current)
+    return(out)
   }
-
-  #Now we're gonna tack on another option to return a vector saying if the school is one of our 'normal'
-    #schools. If current = TRUE, we'll return an extra vector
-
-    active.schools.num = c(141 ,54 ,12 ,8 ,24 ,33 ,20 ,188 ,5 ,22 ,146 ,9 ,7 ,
-                186 ,11 ,166 ,135 ,99 ,169 ,57 ,70 ,173 ,145 ,170 ,
-                168 ,110 ,100 ,23 ,52 ,143 ,165 ,130 ,34 ,160 ,78 ,
-                176 ,53,7)
-
-    active.schools.abbr = c("ABCS","ACCS","ALHS","AMES","ATC","ATES","CAHS",
-                         "CAMS","CCES","CGES","CHES","DC","DRS","DVMS",
-                         "ECCS","ECO","EDCS","EJES","ENHS","GOCS","KEES",
-                         "MIMS","NAES","NOCS","NYEB","ORMS","PIES","RTES",
-                         "RTH","SAES","SFHS","SWES","SWPK","TEES","TEP",
-                         "WGES","ZBS")
-
-    if(current){
-      browser()
-      if(to == "abbr"){
-        df$current.school = df$school.abbr %in% active.schools.abbr
-      }
-      if(to == "num"){
-        df$current.school = df$school.num %in% active.schools.num
-      }
-
-      if(to == "name"){
-        if(from == "abbr"){
-          df$current.school = df[,school] %in% active.schools.abbr
-        }
-        if(from == "num"){
-          df$current.school = df[,school] %in% active.schools.num
-        }
-      }
-    }
-
-
-
-  return(df)
-
 }
+
 
 
 
