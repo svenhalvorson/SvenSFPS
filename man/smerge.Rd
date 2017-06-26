@@ -35,14 +35,14 @@ Sven Halvorson (svenedmail@gmail.com)
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-test1 = data.frame(letter = c("A","B","C","D"),
-                   num = 1:4,
-                   pork = c("bacon","carnitas","ham","chops"))
+test1 = data.frame(letter = c("A","A","B","C","D"),
+                   num = 1:5,
+                   pork = c("bacon","carnitas","carnitas","ham","chops"))
 
 
 
 test2 = data.frame(letter = c("B","C","E","A"),
-                   num = c(2,3,4,5),
+                   num = c(2,3,4,2),
                    chicken = c("wings","sammich","fried","drumstick"))
 
 
