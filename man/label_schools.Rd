@@ -53,7 +53,7 @@ Sven Halvorson (svenedmail@gmail.com)%%  ~~who you are~~
 }
 \examples{
   data = data.frame(esquela = c("madre elem","Agua Fria", "Gilberto University","Capital", "Capshawdawg"))
-  data$newname = label_schools(school = data$esquela, to = "name")
+  data$newname = label_schools(school = data$esquela, to = "abbr")
   data$newname2 = label_schools(school = data$esquela, to = "name", current = FALSE)
   data$num = label_schools(school = data$newname, to = "num")
   View(data)
