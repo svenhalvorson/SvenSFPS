@@ -40,10 +40,9 @@ Sven Halvorson (svenedmail@gmail.com)
 library("dplyr")
 #create a little test set
 
-test.set = data.frame(sample(x = c("A","B","C"),size = 20, replace = TRUE))
-colnames(test.set) = "v1"
-test.set$v2 = sample(x = 1:2, size = 20, replace = TRUE)
-test.set$v3 = sample(x = c("foo", "bar"), size = 20, replace = TRUE)
+test.set = data.frame(v1 = sample(x = c("A","B","C"),size = 20, replace = TRUE),
+                      v2 = sample(x = 1:2, size = 20, replace = TRUE),
+                      v3 = sample(x = c("foo", "bar"), size = 20, replace = TRUE))
 test.set = arrange(test.set,v1,v2,v3)
 
 dupes_tag(test.set,"v1","v2","v3")

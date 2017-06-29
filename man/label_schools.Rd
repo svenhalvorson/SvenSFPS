@@ -52,8 +52,7 @@ Sven Halvorson (svenedmail@gmail.com)%%  ~~who you are~~
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-  data = data.frame(c("madre elem","Agua Fria", "Gilberto University","Capital", "Capshawdawg"))
-  colnames(data) = "esquela"
+  data = data.frame(esquela = c("madre elem","Agua Fria", "Gilberto University","Capital", "Capshawdawg"))
   data$newname = label_schools(school = data$esquela, to = "name")
   data$newname2 = label_schools(school = data$esquela, to = "name", current = FALSE)
   data$num = label_schools(school = data$newname, to = "num")

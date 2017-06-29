@@ -5,7 +5,7 @@
 Multiple Pattern Matching
 }
 \description{
-\code{grepl_multi} allows you to use \code{grepl} with multiple inputs to the \code{pattern} argument. Depending on the \code{all} argument, it either returns whether each element of \code{x} matches all or at least one of the patterns in \code{patterns}. \code{grepl_multi} inherits all the other parameters of \code{grepl}.
+\code{grepl_multi} is a wrapper for \code{grepl} that allows multiple inputs to the \code{pattern} argument. Depending on the \code{all} argument, it either returns whether each element of \code{x} matches all or at least one of the patterns in \code{patterns}. \code{grepl_multi} inherits all the other parameters of \code{grepl}.
 }
 \usage{
 grepl_multi <- function(patterns, x, all = FALSE,

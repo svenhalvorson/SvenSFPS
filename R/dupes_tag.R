@@ -64,20 +64,3 @@ dupes_tag <- function(df,...){
 
 }
 
-
-
-
-########
-#testing
-########
-
-#test.set = data.frame(sample(x = c("A","B","C"),size = 20, replace = TRUE))
-#colnames(test.set) = "v1"
-#test.set$v2 = sample(x = 1:2,size = 20, replace = TRUE)
-#test.set$v3 = sample(x = c("foo", "bar"),size = 20, replace = TRUE)
-
-#
-#fruf = function(...){
-#  return(as.character(...))
-#
-#}
