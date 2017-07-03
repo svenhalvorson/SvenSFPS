@@ -32,8 +32,8 @@ school_year <- function(date){
   year2[nchar(year2) == 1 & !is.na(year2)] = paste0("0", year2[nchar(year2) == 1 & !is.na(year2)])
 
   #paste and return
-  school.year = paste(year, year2, sep="-")
+  school_year = paste(year, year2, sep="-")
 
 
-  return(school.year)
+  return(school_year)
 }
