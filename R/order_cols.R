@@ -105,20 +105,5 @@ order_cols <- function(df, first = NA, last = NA){
 
 
 }
-
-
-# We'll demonstrate reorder here
-df = data.frame(a = 1:4,
-                b = letters[4:7],
-                c = rnorm(n = 4),
-                d = rchisq(n = 4, df = 3),
-                e = c("Salty", "Sweet", "Subtle", "Sweaty"))
-order_cols(df, first = "d", last = c("a","e"))
-
-order_cols(df, last = c("c", "a"))
-
-library("dplyr")
-df %>%
-  filter(a <3) %>%
-  order_cols(c("c","d"))
+1
 
