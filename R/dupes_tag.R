@@ -5,6 +5,7 @@
 
 dupes_tag <- function(df,...){
 
+  library("dplyr")
   ###########
   #safegaurds
   ###########
@@ -58,8 +59,8 @@ dupes_tag <- function(df,...){
   agg$dupes = agg$dupes - 1
 
   #now join back to df
-  df = left_join(df,agg)
-  return(df)
+  df = suppressMessages(left_join(df,agg))
+  return(df$dupes)
 
 
 }

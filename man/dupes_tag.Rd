@@ -18,7 +18,7 @@ dupes_tag(df, ...)
 \details{
 %%  ~~ If necessary, more details than the description above ~~
 }
-\value{ \code{df} with a new column labeled 'dupes'
+\value{ a numeric vector
 }
 \references{
 %% ~put references to the literature/web site here ~
@@ -45,8 +45,8 @@ test.set = data.frame(v1 = sample(x = c("A","B","C"),size = 20, replace = TRUE),
                       v3 = sample(x = c("foo", "bar"), size = 20, replace = TRUE))
 test.set = arrange(test.set,v1,v2,v3)
 
-dupes_tag(test.set,"v1","v2","v3")
-
+test.set$dupes = dupes_tag(test.set,"v1","v2","v3")
+test.set
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
