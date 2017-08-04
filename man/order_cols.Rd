@@ -42,6 +42,7 @@ Sven Halvorson (svenedmail@gmail.com)
 }
 \examples{
 # We'll demonstrate reorder here
+library("dplyr")
 df = data.frame(a = 1:4,
                 b = letters[4:7],
                 c = rnorm(n = 4),
@@ -51,7 +52,7 @@ order_cols(df, first = "d", last = c("a","e"))
 
 order_cols(df, last = c("c", "a"))
 
-library("dplyr")
+
 df %>%
   filter(a <3) %>%
   order_cols(c("c","d"))

@@ -102,8 +102,5 @@ order_cols <- function(df, first = NA, last = NA){
     df = bind_cols(df[first], df[extra], df[last])
     return(df)
   }
-
-
 }
-1
 
