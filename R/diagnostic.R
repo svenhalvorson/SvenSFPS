@@ -1,10 +1,11 @@
 # We're back for another exciting custom function.
 # Many of the problems I encounter while doing data analysis come from
-# not having a grasp on what the data looks like. Often duplicates,
+# not wanting to fully investigate the data before I start moving. Often duplicates,
 # missing data, and unexpected data types foul me up. Let's make a function that
 # will quickly let me see some diagnostics for a data frame.
 
 # take in a data frame and produce a summary data frame
+# The blank parameter determines whether we wnat to treat "" as NA
 
 diagnostic <- function(df, blank = TRUE){
   library("lubridate")
@@ -59,6 +60,21 @@ diagnostic <- function(df, blank = TRUE){
   }
   output[["%_Missing"]] = unlist(lapply(X = df, FUN = new_NA))
 
+  # And just as printed text to accompany the data frame,
+  # let's add % complete records and % unique records
+  unique_records = round(100*(nrow(df) - sum(duplicated(x = df) | duplicated(x = df, fromLast = TRUE)))/nrow(df),1)
+
+  complete_record <- function(x){
+    if(blank & is.character(x)){
+      return(max(is.na(x) | x == ""))
+    }
+    else max(is.na(x))
+  }
+  complete_records = apply(X = df, MARGIN = 1, FUN = complete_record)
+  complete_records = round(100*(nrow(df) - sum(complete_records))/nrow(df),1)
+
+  writeLines(paste0("Complete records: ", complete_records,"%\nUnique records: ", unique_records, "%"))
+
   output
 }
 
@@ -73,4 +89,6 @@ diagnostic <- function(df, blank = TRUE){
 # rr = as.data.frame(lapply(X = mtcars, FUN = random_blanks))
 #
 
-
+testdata = data.frame(x = sample(x = c("Lion", "Crystal Maiden", "Void", NA), size = 8, replace = TRUE),
+                      y = sample(x = c(1:3, NA), size = 8, replace = TRUE),
+                      z = sample(x = c(letters[1:2]), size = 8, replace = TRUE))
