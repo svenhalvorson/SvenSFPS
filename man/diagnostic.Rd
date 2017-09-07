@@ -16,7 +16,7 @@ diagnostic(df, blank = TRUE)
 a data frame
 }
   \item{blank}{
-  if \code{TRUE}, empty strings (\code{""}) will be treated as NA
+  if \code{TRUE}, empty strings (\code{""}) will be treated as \code{NA}
   }
 }
 \details{
