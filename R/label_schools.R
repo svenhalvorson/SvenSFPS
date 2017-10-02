@@ -73,6 +73,7 @@ label_schools <- function(school, to = "abbr", from = NA, current = TRUE){
     if(current){
       suffix = "2"
     }
+    message(paste0(sum(is.na(school[,paste0(to,suffix)])), " entries failed to parse"))
     return(school[,paste0(to,suffix)])
   }
 
