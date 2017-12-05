@@ -5,22 +5,25 @@
 Re-order columns of a data frame
 }
 \description{
-\code{order_cols} takes in a data frame and places the columns specified by \code{first} at the front and those by \code{last} at the end. If one of \code{first} or \code{last} are left as NA, they will be ignored.
+\code{order_cols} takes in a data frame and reorders the columns specified by \code{...}. If \code{front} is \code{TRUE} specified columns are placed before unspecified ones, otherwise they are after unspecified columms.
 }
 \usage{
-\code{order_cols(df, first = NA, last = NA)}
+\code{order_cols(df, ..., front = TRUE)}
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{df}{
 a data frame
 }
-  \item{first, last}{
-  character vectors or NA
+  \item{...}{
+  unquoted column names in \code{df}
+  }
+  \item{front}{
+  a logical value. Should ... be placed before unspecified columns?
   }
 }
 \details{
-All ellements of \code{first} and \code{last} must be in the column names of df and not be \code{NA}. \code{first} and \code{last} may not overlap.
+If all columns in df are specified, df is returned with columns in that order.
 }
 \value{
 \code{df} with its columns reordered
@@ -32,7 +35,7 @@ All ellements of \code{first} and \code{last} must be in the column names of df 
 Sven Halvorson (svenedmail@gmail.com)
 }
 \note{
-%%  ~~further notes~~
+See \code{order_cols_q} for a quoted version.
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
@@ -47,15 +50,18 @@ df = data.frame(a = 1:4,
                 b = letters[4:7],
                 c = rnorm(n = 4),
                 d = rchisq(n = 4, df = 3),
-                e = c("Salty", "Sweet", "Subtle", "Sweaty"))
-order_cols(df, first = "d", last = c("a","e"))
+                e = c("Salty", "Sweet", "Subtle", "Sweaty"),
+                stringsAsFactors = FALSE)
+df
+order_cols(df, d, e)
+order_cols(df, a, b, front = FALSE)
 
-order_cols(df, last = c("c", "a"))
-
-
+# Use with pipes
+library("dplyr")
 df %>%
-  filter(a <3) %>%
-  order_cols(c("c","d"))
+  filter(nchar(e)>5) %>%
+  order_cols(e,a)
+
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
