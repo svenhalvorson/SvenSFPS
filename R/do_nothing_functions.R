@@ -56,15 +56,15 @@ rand_stack <- function(){
 # random progress bar
 progress_bar <- function(){
   total <- 20
-  action = sample(x = c("Calibrating", "Examining", "Loading", "Deparsing", "Extracting", "Disturbing", "Intimidating", "Decimating", "Dispatching"), size = 1)
-  adjective = sample(x = c("syrupy", "raw", "fragmented", "non-standard", "mythical", "lewd", "practical", "orthogonal"), size = 1)
-  noun = sample(x = c("data", "models", "progress monitors", "cake", "octopuses", "strings", "relationships", "bourgeoisie", "parameters", "pages"), size = 1)
+  action = sample(x = c("Calibrating", "Examining", "Loading", "Deparsing", "Extracting", "Disturbing", "Intimidating", "Decimating", "Dispatching", "Systemtizing"), size = 1)
+  adjective = sample(x = c("syrupy", "raw", "fragmented", "non-standard", "mythical", "lewd", "practical", "orthogonal", "ficticious", "large"), size = 1)
+  noun = sample(x = c("data", "models", "progress monitors", "cake", "octopuses", "strings", "relationships", "bourgeoisie", "parameters", "pages", "subsets"), size = 1)
   notice = sample(x = c(". This may take some time...", "", ". One moment please...", ". Gimmie a minute...", ""), size = 1)
   print(paste0(action, " ", adjective, " ", noun, notice))
   # create progress bar
   pb <- txtProgressBar(min = 0, max = total, style = 3)
   for(i in 1:total){
-    time = runif(n = 1, min = 0.1, max = 1.3)
+    time = runif(n = 1, min = 0.1, max = 1.2)
     Sys.sleep(time)
     # update progress bar
     setTxtProgressBar(pb, i)
@@ -81,7 +81,7 @@ progress_bar <- function(){
 flashy_bar <- function(){
 
   verbs = c("Truncating", "Proselytizing", "Disaggregating", "Finalzing", "Decoupling", "Casting", "Repairing", "Recyling", "Verifying", "Synthesizing")
-  adjectives = c("active", "normal", "uneven", "spacious", "stranded", "overrated", "hyper", "dark", "new", "special", "circular", "crusty")
+  adjectives = c("active", "normal", "uneven", "spacious", "stranded", "overrated", "hyper", "dark", "new", "special", "circular", "crusty", "heterogeneic")
   nouns = c("water foul", "data.frames", "maps", "snacks", "metrics", "indicators", "deep dives", "coastlines", "New Mexicans", "diagrams", "priorities")
 
   times = sample(1:4, size = 1)
@@ -93,9 +93,9 @@ flashy_bar <- function(){
     pb <- winProgressBar(title = paste(verb,adj,noun), min = 0,
                          max = 20, width = 300)
 
-    for(i in 1:20){
-      Sys.sleep(runif(n = 1, min = 0, max = 0.5))
-      setWinProgressBar(pb, i, title=paste(title,"  ", round(i/total*100, 0),
+    for(i in 1:25){
+      Sys.sleep(runif(n = 1, min = 0, max = 0.6))
+      setWinProgressBar(pb, i, title=paste(title,"  ", round(i/25*100, 0),
                                             "% done"))
     }
     close(pb)
