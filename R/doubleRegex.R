@@ -7,6 +7,11 @@ double.regex <- function(a, b, ignore.case = FALSE){
     return(FALSE)
   }
 
+  # must be atomic
+  if(!is.character(a) | !is.character(b)){
+    stop("a and b must be characters")
+  }
+
   #can only take in length 1
   if(length(a) != 1 | length(b) != 1){
 

@@ -1,4 +1,4 @@
-# Just a tiny function to tydy up the workspace since I seem to end up doing this a lot
+# Just a tiny function to tidy up the workspace since I seem to end up doing this a lot
 
 clear <- function(env = globalenv()){
 

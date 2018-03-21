@@ -1,7 +1,7 @@
-#We're gonna write a very short routine to create school years for
-#an arbitrary date vector. The output should be a character vector with
-#the following format: The school year starting in september of 2016 should
-#be labeled 16-17
+# We're gonna write a very short routine to create school years for
+# an arbitrary date vector. The output should be a character vector with
+# the following format: The school year starting in september of 2016 should
+# be labeled 16-17
 
 school_year <- function(date){
 

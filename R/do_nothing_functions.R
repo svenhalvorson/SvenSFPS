@@ -80,9 +80,15 @@ progress_bar <- function(){
 # here's another version of the loading bar
 flashy_bar <- function(){
 
-  verbs = c("Truncating", "Proselytizing", "Disaggregating", "Finalzing", "Decoupling", "Casting", "Repairing", "Recyling", "Verifying", "Synthesizing")
-  adjectives = c("active", "normal", "uneven", "spacious", "stranded", "overrated", "hyper", "dark", "new", "special", "circular", "crusty", "heterogeneic")
-  nouns = c("water foul", "data.frames", "maps", "snacks", "metrics", "indicators", "deep dives", "coastlines", "New Mexicans", "diagrams", "priorities")
+  verbs = c("Truncating", "Proselytizing", "Disaggregating", "Finalzing", "Decoupling",
+            "Casting", "Repairing", "Recyling", "Verifying", "Synthesizing", "Strong-arming",
+            "Transposing", "P-hacking")
+  adjectives = c("active", "normal", "uneven", "specious", "stranded", "overrated", "hyper",
+                 "dark", "new", "special", "circular", "crusty", "heterogeneic", "misguided",
+                 "inverted")
+  nouns = c("water foul", "data frames", "maps", "coefficients", "metrics", "indicators", "deep dives",
+            "coastlines", "New Mexicans", "diagrams", "priorities", "animations", "notifications",
+            "statistics", "f-values", "correlations")
 
   times = sample(1:4, size = 1)
   for(i in 1:times){
@@ -91,7 +97,7 @@ flashy_bar <- function(){
     noun = sample(nouns, 1)
     title = paste(verb,adj,noun)
     pb <- winProgressBar(title = paste(verb,adj,noun), min = 0,
-                         max = 20, width = 300)
+                         max = 25, width = 500)
 
     for(i in 1:25){
       Sys.sleep(runif(n = 1, min = 0, max = 0.6))
@@ -99,9 +105,7 @@ flashy_bar <- function(){
                                             "% done"))
     }
     close(pb)
-
   }
-
 }
 
 # Maybe just a bunch of messages
@@ -139,6 +143,6 @@ headlines <- function(){
     cat(paste("\t",headlines[i],"\n\n"))
     Sys.sleep(1.3)
   }
-
+  headlines
 
 }
