@@ -132,11 +132,14 @@ buncha_messages <- function(){
   }
 }
 
+# dangit, google news changed their layout so this doesn't work anymore
+
+
 headlines <- function(){
   message("Here are some of today's headlines:")
   html <- read_html("https://news.google.com/news/?ned=us&gl=US&hl=en")
   headlines = html %>%
-    html_nodes(".kWyHVd") %>%
+    html_nodes(".VDXfz") %>%
     html_text()
 
   for(i in 1:10){
